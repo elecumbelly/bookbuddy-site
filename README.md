@@ -1,6 +1,6 @@
 # bookbuddy-site
 
-Marketing one-pager and App Store support page for [Bookbuddy](https://github.com/elecumbelly/Bookbuddy), the iOS book-library app.
+Marketing one-pager and App Store support page for [BookM@rk](https://github.com/elecumbelly/Bookbuddy), the iOS book-library app (App Store name **BookM@rk**; internal project name Bookbuddy — repo, domain, and paths keep the old name).
 
 - **Production:** https://bookbuddy.collapsingwavefunctions.com (Vercel)
 - Static HTML/CSS, no build step — edit `index.html`, push to `main`, Vercel deploys.
