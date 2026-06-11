@@ -11,8 +11,20 @@
   <meta property="og:type" content="website">
   <link rel="icon" type="image/png" href="assets/icon-180.png">
   <link rel="apple-touch-icon" href="assets/icon-180.png">
+  <meta name="theme-color" content="#000000">
+  <script>
+    (function () {
+      var saved = null;
+      try { saved = localStorage.getItem('theme'); } catch (e) {}
+      var theme = (saved === 'light' || saved === 'dark')
+        ? saved
+        : (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
   <style>
     :root {
+      color-scheme: dark;
       --void: #000000;
       --void-soft: #0a0a0a;
       --card: #0f0f0f;
@@ -24,28 +36,83 @@
       --teal: #14b8a6;
       --amber: #f59e0b;
       --bronze: #cd7f32;
+      --weave-1: #0d0d0d;
+      --weave-2: #080808;
+      --h1-grad: linear-gradient(135deg, var(--silver-bright), var(--silver) 55%, #71717a);
+      --icon-glow: 0 0 40px rgba(212, 212, 216, 0.18);
+      --badge-bg: linear-gradient(180deg, #18181b, #0a0a0a);
+      --hero-shadow: 0 24px 80px rgba(0, 0, 0, 0.8), 0 0 60px rgba(212, 212, 216, 0.06);
+      --shot-shadow: 0 16px 48px rgba(0, 0, 0, 0.7);
+      --btn-primary-bg: linear-gradient(180deg, var(--silver-bright), var(--silver));
+      --btn-primary-text: #0a0a0a;
+      --footer-text: #555555;
+      --toggle-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    }
+    :root[data-theme="light"] {
+      color-scheme: light;
+      --void: #faf9f7;
+      --void-soft: #f3f1ec;
+      --card: #ffffff;
+      --border: #e0dcd3;
+      --text: #1f1f21;
+      --text-2: #66666c;
+      --silver: #52525b;
+      --silver-bright: #27272a;
+      --teal: #0f766e;
+      --amber: #b45309;
+      --bronze: #a05a2c;
+      --weave-1: #f3f1ed;
+      --weave-2: #efede8;
+      --h1-grad: linear-gradient(135deg, #18181b, #3f3f46 55%, #71717a);
+      --icon-glow: 0 12px 32px rgba(0, 0, 0, 0.16);
+      --badge-bg: linear-gradient(180deg, #ffffff, #f1efea);
+      --hero-shadow: 0 24px 64px rgba(31, 31, 33, 0.18);
+      --shot-shadow: 0 14px 40px rgba(31, 31, 33, 0.14);
+      --btn-primary-bg: linear-gradient(180deg, #3f3f46, #18181b);
+      --btn-primary-text: #fafafa;
+      --footer-text: #8a877f;
+      --toggle-shadow: 0 4px 14px rgba(31, 31, 33, 0.15);
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       background-color: var(--void);
-      /* Carbon weave: subtle crossing diagonals over pure black */
+      /* Carbon weave: subtle crossing diagonals over the base background */
       background-image:
-        repeating-linear-gradient(45deg, #0d0d0d 0 2px, transparent 2px 6px),
-        repeating-linear-gradient(-45deg, #080808 0 2px, transparent 2px 6px);
+        repeating-linear-gradient(45deg, var(--weave-1) 0 2px, transparent 2px 6px),
+        repeating-linear-gradient(-45deg, var(--weave-2) 0 2px, transparent 2px 6px);
       color: var(--text);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      transition: background-color 0.25s ease, color 0.25s ease;
     }
     a { color: var(--silver-bright); }
     .wrap { max-width: 1060px; margin: 0 auto; padding: 0 24px; }
+
+    /* Theme toggle */
+    .theme-toggle {
+      position: fixed; top: 18px; right: 18px; z-index: 10;
+      width: 44px; height: 44px; border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--badge-bg);
+      box-shadow: var(--toggle-shadow);
+      cursor: pointer; font-size: 19px; line-height: 1;
+      display: flex; align-items: center; justify-content: center;
+      transition: transform 0.15s ease;
+    }
+    .theme-toggle:hover { transform: scale(1.08); }
+    .theme-toggle .moon { display: none; }
+    :root[data-theme="light"] .theme-toggle .sun { display: none; }
+    :root[data-theme="light"] .theme-toggle .moon { display: block; }
+    /* Without JS the button can't do anything — hide it */
+    :root:not([data-theme]) .theme-toggle { display: none; }
 
     /* Hero */
     header { padding: 88px 0 56px; text-align: center; }
     .app-icon {
       width: 120px; height: 120px; border-radius: 27px;
-      box-shadow: 0 0 40px rgba(212, 212, 216, 0.18);
+      box-shadow: var(--icon-glow);
       border: 1px solid var(--border);
     }
     h1 {
@@ -53,7 +120,7 @@
       font-size: clamp(40px, 7vw, 64px);
       font-weight: 800;
       letter-spacing: -0.02em;
-      background: linear-gradient(135deg, var(--silver-bright), var(--silver) 55%, #71717a);
+      background: var(--h1-grad);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
@@ -63,7 +130,7 @@
     .badge {
       display: inline-block; margin-top: 32px; padding: 12px 26px;
       border: 1px solid var(--border); border-radius: 999px;
-      background: linear-gradient(180deg, #18181b, #0a0a0a);
+      background: var(--badge-bg);
       color: var(--silver-bright); font-weight: 600; font-size: 15px;
       letter-spacing: 0.02em;
     }
@@ -72,7 +139,7 @@
     .hero-shot {
       display: block; margin: 56px auto 0; width: min(360px, 82vw);
       border-radius: 36px; border: 1px solid var(--border);
-      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.8), 0 0 60px rgba(212, 212, 216, 0.06);
+      box-shadow: var(--hero-shadow);
     }
 
     /* Sections */
@@ -90,6 +157,7 @@
     .feature {
       background: var(--card); border: 1px solid var(--border);
       border-radius: 16px; padding: 26px;
+      transition: background-color 0.25s ease;
     }
     .feature .glyph { font-size: 26px; }
     .feature h3 { margin: 12px 0 6px; font-size: 17px; color: var(--silver-bright); }
@@ -100,7 +168,7 @@
     .shots img {
       width: min(280px, 80vw); border-radius: 28px;
       border: 1px solid var(--border);
-      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.7);
+      box-shadow: var(--shot-shadow);
     }
     .shots img.wide { width: min(420px, 90vw); }
     .shots figcaption { text-align: center; color: var(--text-2); font-size: 13px; margin-top: 12px; }
@@ -109,6 +177,7 @@
     .privacy {
       text-align: center; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
       background: var(--void-soft);
+      transition: background-color 0.25s ease;
     }
     .privacy p { max-width: 640px; margin: 0 auto; color: var(--text-2); font-size: 16px; }
     .privacy strong { color: var(--teal); font-weight: 600; }
@@ -120,18 +189,23 @@
       display: inline-block; margin: 6px 8px; padding: 13px 28px;
       border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 15px;
     }
-    .btn-primary { background: linear-gradient(180deg, var(--silver-bright), var(--silver)); color: #0a0a0a; }
+    .btn-primary { background: var(--btn-primary-bg); color: var(--btn-primary-text); }
     .btn-ghost { border: 1px solid var(--border); color: var(--silver); }
 
     footer {
       padding: 40px 0 56px; text-align: center;
-      color: #555; font-size: 13.5px; border-top: 1px solid var(--border);
+      color: var(--footer-text); font-size: 13.5px; border-top: 1px solid var(--border);
     }
     footer a { color: var(--text-2); text-decoration: none; }
     footer a:hover { color: var(--silver); }
   </style>
 </head>
 <body>
+
+  <button class="theme-toggle" type="button" aria-label="Switch to light mode">
+    <span class="sun" aria-hidden="true">☀️</span>
+    <span class="moon" aria-hidden="true">🌙</span>
+  </button>
 
   <header class="wrap">
     <img class="app-icon" src="assets/icon.png" alt="BookM@rk app icon">
@@ -214,6 +288,25 @@
       © 2026 <a href="https://collapsingwavefunctions.com">Collapsing Wave Functions</a> · BookM@rk for iOS &amp; iPadOS
     </div>
   </footer>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var btn = document.querySelector('.theme-toggle');
+      var meta = document.querySelector('meta[name="theme-color"]');
+      function apply(theme) {
+        root.setAttribute('data-theme', theme);
+        meta.setAttribute('content', theme === 'light' ? '#faf9f7' : '#000000');
+        btn.setAttribute('aria-label', theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode');
+      }
+      apply(root.getAttribute('data-theme'));
+      btn.addEventListener('click', function () {
+        var next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        apply(next);
+        try { localStorage.setItem('theme', next); } catch (e) {}
+      });
+    })();
+  </script>
 
 </body>
 </html>
