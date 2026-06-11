@@ -1,6 +1,6 @@
 # bookbuddy-site
 
-Marketing one-pager and App Store support page for [BookM@rk](https://github.com/elecumbelly/Bookbuddy), the iOS book-library app (App Store name **BookM@rk**; internal project name Bookbuddy — repo, domain, and paths keep the old name).
+Marketing one-pager and App Store support page for [BookM@rk](https://github.com/elecumbelly/BookMark), the iOS book-library app (App Store name **BookM@rk**; app repo renamed to BookMark 2026-06-11, old links redirect. Internal identifiers — bundle ID, scheme, Xcode project, this site's repo/domain — keep the Bookbuddy name).
 
 - **Production:** https://bookbuddy.collapsingwavefunctions.com (Vercel)
 - Static HTML/CSS, no build step — edit `index.html`, commit, then deploy manually with `vercel deploy --prod` (GitHub auto-deploy is not connected to this repo).
