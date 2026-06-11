@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bookbuddy — Your Personal Book Library</title>
+  <meta name="description" content="Scan barcodes to add books instantly, track your reading progress by voice, and keep your entire library organized. Private by design — no account, no tracking.">
+  <meta property="og:title" content="Bookbuddy — Your Personal Book Library">
+  <meta property="og:description" content="Scan barcodes. Track progress by voice. Your entire book collection, beautifully organized — and it never leaves your device.">
+  <meta property="og:image" content="https://bookbuddy.collapsingwavefunctions.com/assets/library.png">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/png" href="assets/icon-180.png">
+  <link rel="apple-touch-icon" href="assets/icon-180.png">
+  <style>
+    :root {
+      --void: #000000;
+      --void-soft: #0a0a0a;
+      --card: #0f0f0f;
+      --border: #2a2a2a;
+      --text: #e8e8e8;
+      --text-2: #888888;
+      --silver: #d4d4d8;
+      --silver-bright: #e4e4e7;
+      --teal: #14b8a6;
+      --amber: #f59e0b;
+      --bronze: #cd7f32;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--void);
+      /* Carbon weave: subtle crossing diagonals over pure black */
+      background-image:
+        repeating-linear-gradient(45deg, #0d0d0d 0 2px, transparent 2px 6px),
+        repeating-linear-gradient(-45deg, #080808 0 2px, transparent 2px 6px);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--silver-bright); }
+    .wrap { max-width: 1060px; margin: 0 auto; padding: 0 24px; }
+
+    /* Hero */
+    header { padding: 88px 0 56px; text-align: center; }
+    .app-icon {
+      width: 120px; height: 120px; border-radius: 27px;
+      box-shadow: 0 0 40px rgba(212, 212, 216, 0.18);
+      border: 1px solid var(--border);
+    }
+    h1 {
+      margin-top: 28px;
+      font-size: clamp(40px, 7vw, 64px);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, var(--silver-bright), var(--silver) 55%, #71717a);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .tagline { margin-top: 10px; font-size: clamp(18px, 3vw, 24px); color: var(--silver); font-weight: 500; }
+    .sub { margin: 18px auto 0; max-width: 620px; color: var(--text-2); font-size: 17px; }
+    .badge {
+      display: inline-block; margin-top: 32px; padding: 12px 26px;
+      border: 1px solid var(--border); border-radius: 999px;
+      background: linear-gradient(180deg, #18181b, #0a0a0a);
+      color: var(--silver-bright); font-weight: 600; font-size: 15px;
+      letter-spacing: 0.02em;
+    }
+    .badge span { color: var(--amber); }
+
+    .hero-shot {
+      display: block; margin: 56px auto 0; width: min(360px, 82vw);
+      border-radius: 36px; border: 1px solid var(--border);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.8), 0 0 60px rgba(212, 212, 216, 0.06);
+    }
+
+    /* Sections */
+    section { padding: 72px 0; }
+    h2 {
+      text-align: center; font-size: clamp(26px, 4.5vw, 36px); font-weight: 700;
+      letter-spacing: -0.01em; color: var(--silver-bright); margin-bottom: 48px;
+    }
+
+    /* Features */
+    .features {
+      display: grid; gap: 18px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+    .feature {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 26px;
+    }
+    .feature .glyph { font-size: 26px; }
+    .feature h3 { margin: 12px 0 6px; font-size: 17px; color: var(--silver-bright); }
+    .feature p { color: var(--text-2); font-size: 15px; }
+
+    /* Screenshots */
+    .shots { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; align-items: flex-start; }
+    .shots img {
+      width: min(280px, 80vw); border-radius: 28px;
+      border: 1px solid var(--border);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.7);
+    }
+    .shots img.wide { width: min(420px, 90vw); }
+    .shots figcaption { text-align: center; color: var(--text-2); font-size: 13px; margin-top: 12px; }
+
+    /* Privacy strip */
+    .privacy {
+      text-align: center; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      background: var(--void-soft);
+    }
+    .privacy p { max-width: 640px; margin: 0 auto; color: var(--text-2); font-size: 16px; }
+    .privacy strong { color: var(--teal); font-weight: 600; }
+
+    /* Support */
+    .support { text-align: center; }
+    .support p { color: var(--text-2); max-width: 560px; margin: 0 auto 24px; }
+    .btn {
+      display: inline-block; margin: 6px 8px; padding: 13px 28px;
+      border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 15px;
+    }
+    .btn-primary { background: linear-gradient(180deg, var(--silver-bright), var(--silver)); color: #0a0a0a; }
+    .btn-ghost { border: 1px solid var(--border); color: var(--silver); }
+
+    footer {
+      padding: 40px 0 56px; text-align: center;
+      color: #555; font-size: 13.5px; border-top: 1px solid var(--border);
+    }
+    footer a { color: var(--text-2); text-decoration: none; }
+    footer a:hover { color: var(--silver); }
+  </style>
+</head>
+<body>
+
+  <header class="wrap">
+    <img class="app-icon" src="assets/icon.png" alt="Bookbuddy app icon">
+    <h1>Bookbuddy</h1>
+    <p class="tagline">Your personal book library</p>
+    <p class="sub">Scan barcodes to add books instantly, track your reading progress with your voice, and keep your entire collection organized in one beautiful app.</p>
+    <div class="badge"><span>●</span>&nbsp; Coming soon to the App&nbsp;Store</div>
+    <img class="hero-shot" src="assets/library.png" alt="Bookbuddy library screen showing books with reading status and progress">
+  </header>
+
+  <section class="wrap" id="features">
+    <h2>Everything a reader needs. Nothing they don't.</h2>
+    <div class="features">
+      <div class="feature">
+        <div class="glyph">📷</div>
+        <h3>Instant Book Scanning</h3>
+        <p>Point your camera at any book's barcode and Bookbuddy fetches the title, author, cover, and details automatically. No typing required.</p>
+      </div>
+      <div class="feature">
+        <div class="glyph">🎙️</div>
+        <h3>Voice-Enabled Progress</h3>
+        <p>Update your reading progress hands-free. Just say "page 150" and Bookbuddy records it — perfect for when you don't want to put the book down.</p>
+      </div>
+      <div class="feature">
+        <div class="glyph">🗣️</div>
+        <h3>Siri Shortcuts</h3>
+        <p>Save your page, update progress, or record a voice note without opening the app — from your Lock Screen, Apple Watch, or anywhere Siri lives.</p>
+      </div>
+      <div class="feature">
+        <div class="glyph">📝</div>
+        <h3>Capture &amp; Markup</h3>
+        <p>Scan favorite pages with automatic edge detection, then annotate with Apple Pencil or your finger. Everything stays connected to the right book.</p>
+      </div>
+      <div class="feature">
+        <div class="glyph">🔍</div>
+        <h3>Find Anything</h3>
+        <p>Search your whole library by title or author and track every book by status — To Read, Reading, Completed — with visual progress bars.</p>
+      </div>
+      <div class="feature">
+        <div class="glyph">🔒</div>
+        <h3>Private by Design</h3>
+        <p>Everything is stored on your device. No account, no cloud, no tracking. Your reading habits are nobody's business but yours.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <h2>Designed dark. Built for readers.</h2>
+    <div class="shots">
+      <figure>
+        <img src="assets/welcome.png" alt="Bookbuddy welcome screen listing key features">
+        <figcaption>A 30-second welcome</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/library.png" alt="Bookbuddy library with search and reading progress">
+        <figcaption>Your library, searchable</figcaption>
+      </figure>
+      <figure>
+        <img class="wide" src="assets/ipad.png" alt="Bookbuddy running on iPad Pro">
+        <figcaption>At home on iPad too</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="privacy">
+    <div class="wrap">
+      <p><strong>Your data stays yours.</strong> Bookbuddy collects nothing and tracks nothing. Book details come from free, public sources — Open Library, Google Books, openBD, and Crossref — and your library never leaves your device.</p>
+    </div>
+  </section>
+
+  <section class="wrap support" id="support">
+    <h2>Support</h2>
+    <p>Questions, problems, or ideas for Bookbuddy? Get in touch and a human will reply.</p>
+    <a class="btn btn-primary" href="mailto:elecumbelly@gmail.com?subject=Bookbuddy%20support">Email support</a>
+    <a class="btn btn-ghost" href="https://collapsingwavefunctions.com/privacy">Privacy policy</a>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      © 2026 <a href="https://collapsingwavefunctions.com">Collapsing Wave Functions</a> · Bookbuddy for iOS &amp; iPadOS
+    </div>
+  </footer>
+
+</body>
+</html>
